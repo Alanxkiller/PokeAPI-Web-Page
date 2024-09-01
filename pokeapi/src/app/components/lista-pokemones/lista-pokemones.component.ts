@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './lista-pokemones.component.html',
   styleUrl: './lista-pokemones.component.css'
 })
+
 export class ListaPokemonesComponent implements OnInit {
 
   pokemonList: any[] = [];
@@ -32,11 +33,25 @@ export class ListaPokemonesComponent implements OnInit {
       (data: any) => {
         this.pokemonList = data.results;
         this.totalPokemons = data.count;
+        this.loadPokemonImages();
       },
       error => {
         console.error('Error fetching Pokemon list:', error);
       }
     );
+  }
+
+  loadPokemonImages() {
+    this.pokemonList.forEach(pokemon => {
+      this.pokeApiService.getPokemonDetails(pokemon.name).subscribe(
+        (details: any) => {
+          pokemon.imageUrl = details.sprites.front_default;
+        },
+        error => {
+          console.error(`Error fetching details for ${pokemon.name}:`, error);
+        }
+      );
+    });
   }
 
   onPageChange(event: PageEvent) {

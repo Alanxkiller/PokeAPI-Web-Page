@@ -1,19 +1,21 @@
 <div class="container">
-    <mat-grid-list cols="3" rowHeight="100px" gutterSize="10px">
+    
+    <mat-paginator
+    [length]="totalPokemons"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+    aria-label="Select page">
+  </mat-paginator>
+
+    <mat-grid-list cols="3" rowHeight="150px" gutterSize="10px">
       <mat-grid-tile *ngFor="let pokemon of pokemonList">
         <mat-card (click)="onPokemonClick(pokemon.name)">
           <mat-card-header>
             <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
           </mat-card-header>
+          <img mat-card-image [src]="pokemon.imageUrl" [alt]="pokemon.name">
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
-  
-    <mat-paginator
-      [length]="totalPokemons"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageChange($event)"
-      aria-label="Select page">
-    </mat-paginator>
   </div>

@@ -6,50 +6,79 @@
       </mat-card-header>
   
       <mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button (click)="goBack()">Go back to list</button>
+            <button mat-button [disabled]="!prevPokemon" (click)="goToPokemon(prevPokemon)" class="nav-button">
+                Previous
+              <img *ngIf="prevPokemon" [src]="prevPokemon.imageUrl" [alt]="prevPokemon.name">
+            </button>
+            <button mat-button [disabled]="!nextPokemon" (click)="goToPokemon(nextPokemon)" class="nav-button">
+                Next
+              <img *ngIf="nextPokemon" [src]="nextPokemon.imageUrl" [alt]="nextPokemon.name">
+            </button>
+          </mat-card-actions>
+
+          <div class="infobox">
         <div class="image-gallery">
           <img *ngFor="let url of spriteUrls" [src]="url" [alt]="pokemon.name">
         </div>
+        </div>
   
         <mat-divider></mat-divider>
-  
-        <h3>Características básicas</h3>
-        <p>Altura: {{ pokemon.height / 10 }} m</p>
-        <p>Peso: {{ pokemon.weight / 10 }} kg</p>
-        <p>Experiencia base: {{ pokemon.base_experience }}</p>
-  
+        
+        <div class="infobox">
+        <h3>Basic features:</h3>
+        <p>Height: {{ pokemon.height / 10 }} m</p>
+        <p>Weight: {{ pokemon.weight / 10 }} kg</p>
+        <p>Base EXP: {{ pokemon.base_experience }}</p>
+        </div>
         <mat-divider></mat-divider>
-  
-        <h3>Tipos</h3>
+        
+        <div class="infobox">
+        <h3>Types</h3>
         <mat-chip-set>
           <mat-chip *ngFor="let type of pokemon.types">{{ type.type.name | titlecase }}</mat-chip>
         </mat-chip-set>
+    </div>
   
         <mat-divider></mat-divider>
-  
-        <h3>Habilidades</h3>
+
+        <div class="infobox">
+        <h3>Abilities</h3>
         <mat-list>
           <mat-list-item *ngFor="let ability of pokemon.abilities">
             {{ ability.ability.name | titlecase }}
-            <span *ngIf="ability.is_hidden">(Oculta)</span>
+            <span *ngIf="ability.is_hidden">(Hidden)</span>
           </mat-list-item>
         </mat-list>
+    </div>
+
   
         <mat-divider></mat-divider>
-  
-        <h3>Estadísticas</h3>
+
+        <div class="infobox">
+        <h3>Stats</h3>
         <mat-list>
           <mat-list-item *ngFor="let stat of pokemon.stats">
             {{ stat.stat.name | titlecase }}: {{ stat.base_stat }}
           </mat-list-item>
         </mat-list>
+    </div>
   
         <mat-divider></mat-divider>
-  
-        <h3>Movimientos</h3>
+        
+        <div class="infobox">
+        <h3>Moves</h3>
         <mat-chip-set>
-          <mat-chip *ngFor="let move of pokemon.moves.slice(0, 10)">{{ move.move.name | titlecase }}</mat-chip>
+          <mat-chip *ngFor="let move of pokemon.moves.slice(0, 100)">{{ move.move.name | titlecase }}</mat-chip>
         </mat-chip-set>
-        <p *ngIf="pokemon.moves.length > 10">Y {{ pokemon.moves.length - 10 }} más...</p>
+        <!-- <p *ngIf="pokemon.moves.length > 10">Y {{ pokemon.moves.length - 10 }} más...</p> --->
+    </div>
+
       </mat-card-content>
+
+
+
     </mat-card>
   </div>

@@ -1,5 +1,7 @@
 .container {
     padding: 20px;
+    color: white;
+    background-color: rgb(162, 162, 162);
   }
   
   mat-card {
@@ -8,4 +10,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(56, 112, 56);
+  }
+
+  mat-paginator {
+    margin: 20px;
   }

@@ -13,13 +13,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatListModule } from '@angular/material/list'
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     ListaPokemonesComponent,
-    PokemonComponent
+    PokemonComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,8 @@ import { MatListModule } from '@angular/material/list'
     MatPaginatorModule,
     MatDividerModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule
   ],
   providers: [
     provideAnimationsAsync()
