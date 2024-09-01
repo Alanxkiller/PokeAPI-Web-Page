@@ -11,8 +11,21 @@
     justify-content: center;
     align-items: center;
     background-color: rgb(56, 112, 56);
+    transition: transform 0.3s ease, background-color 0.3s ease;
   }
+
+  mat-card:hover {
+    background-color: rgb(76, 142, 76);
+    transform: scale(1.05); 
+}
 
   mat-paginator {
     margin: 20px;
+  }
+
+  mat-form-field {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
