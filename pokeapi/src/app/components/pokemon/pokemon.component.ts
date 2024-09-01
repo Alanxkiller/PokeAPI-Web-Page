@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
+import { forkJoin, Observable } from 'rxjs';
 
 interface AdjacentPokemon {
   name: string;
   imageUrl: string;
+}
+
+interface Ability {
+  name: string;
+  effect: string;
+  isHidden: boolean;
 }
 
 @Component({
@@ -18,7 +25,7 @@ export class PokemonComponent implements OnInit {
   prevPokemon: AdjacentPokemon | null = null;
   nextPokemon: AdjacentPokemon | null = null;
   showStats: boolean = false;
-
+  abilities: Ability[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +49,7 @@ export class PokemonComponent implements OnInit {
         this.extractSpriteUrls();
         this.loadAdjacentPokemon(this.pokemon.id);
         this.calculateStatPercentages();
+        this.loadAbilityDetails();
         setTimeout(() => {
           this.showStats = true;
         }, 100);
@@ -50,6 +58,30 @@ export class PokemonComponent implements OnInit {
         console.error('Error fetching Pokemon details:', error);
       }
     );
+  }
+
+  loadAbilityDetails() {
+    const abilityObservables = this.pokemon.abilities.map((ability: any) =>
+      this.pokeApiService.getAbilityDetails(ability.ability.url)
+    );
+
+    forkJoin(abilityObservables as Observable<any>[]).subscribe(
+      (abilityDetails: any[]) => {
+        this.abilities = abilityDetails.map((detail, index) => ({
+          name: this.pokemon.abilities[index].ability.name,
+          effect: this.getEnglishFlavorText(detail.flavor_text_entries),
+          isHidden: this.pokemon.abilities[index].is_hidden
+        }));
+      },
+      error => {
+        console.error('Error fetching ability details:', error);
+      }
+    );
+  }
+
+  getEnglishFlavorText(flavorTextEntries: any[]): string {
+    const englishEntry = flavorTextEntries.find(entry => entry.language.name === 'en');
+    return englishEntry ? englishEntry.flavor_text : 'No description available.';
   }
 
   calculateStatPercentages() {

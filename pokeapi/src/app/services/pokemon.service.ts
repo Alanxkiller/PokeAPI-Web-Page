@@ -24,4 +24,9 @@ export class PokemonService {
   getAllPokemon(): Observable<any> {
     return this.http.get(`${this.baseUrl}/pokemon?limit=1000`); // Ajusta el límite según sea necesario
   }
+
+  getAbilityDetails(url: string): Observable<any> {
+    return this.http.get(url);
+  }
+  
 }

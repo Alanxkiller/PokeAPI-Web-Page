@@ -222,3 +222,36 @@
   font-weight: bold;
   font-size: 1.8rem;
 }
+
+mat-accordion {
+  display: block;
+  margin-top: 10px;
+}
+
+mat-expansion-panel {
+  background-color: rgb(84, 84, 84);
+  color: white;
+  margin-bottom: 10px;
+}
+
+mat-panel-title {
+  color: white;
+}
+
+mat-expansion-panel-header {
+  background-color: rgb(56, 112, 56);
+}
+
+mat-expansion-panel-header:hover {
+  background-color: rgb(76, 132, 76) !important;
+}
+
+mat-expansion-panel-header.mat-expanded {
+  background-color: rgb(76, 132, 76) !important;
+}
+
+mat-expansion-panel p {
+  padding: 10px;
+  background-color: rgb(105, 105, 105);
+  border-radius: 5px;
+}

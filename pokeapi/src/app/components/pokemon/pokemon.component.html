@@ -107,12 +107,17 @@
 
       <div class="infobox">
         <h3>Abilities</h3>
-        <mat-list>
-          <mat-list-item *ngFor="let ability of pokemon.abilities">
-            {{ ability.ability.name | titlecase }}
-            <span *ngIf="ability.is_hidden">(Hidden)</span>
-          </mat-list-item>
-        </mat-list>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let ability of abilities">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ ability.name | titlecase }}
+                <span *ngIf="ability.isHidden">&nbsp;(Hidden)</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{ ability.effect }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
 
       <mat-divider></mat-divider>
