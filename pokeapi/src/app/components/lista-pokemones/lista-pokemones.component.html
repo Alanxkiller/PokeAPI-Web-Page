@@ -16,9 +16,9 @@
   </mat-paginator>
 
   <div *ngIf="!isLoading" [@listAnimation]="displayedPokemonList.length">
-    <mat-grid-list cols="4" rowHeight="200px">
+    <mat-grid-list [cols]="cols" rowHeight="200px">
       <mat-grid-tile *ngFor="let pokemon of displayedPokemonList">
-        <mat-card (click)="onPokemonClick(pokemon.name)">
+        <mat-card (click)="onPokemonClick(pokemon.name)" [ngStyle]="{'font-size': fontSize}">
           <mat-card-header>
             <mat-card-title>{{ pokemon.name | titlecase }}</mat-card-title>
           </mat-card-header>

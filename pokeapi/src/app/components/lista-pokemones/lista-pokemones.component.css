@@ -30,8 +30,12 @@
 
   mat-paginator {
     margin: 20px 0;
-  }
+  } 
 
+  .mat-mdc-paginator {
+    --mat-paginator-container-text-size: 1.1rem;
+  }
+ 
   mat-form-field {
     width: 30%;
     display: flex;
@@ -40,9 +44,12 @@
   }
 
   mat-grid-list {
+    display: grid;
+  gap: 10px;
     margin: 20px 0;
   }
 
   mat-grid-tile {
     padding: 10px !important; /* Sobrescribe el padding por defecto de Angular Material */
   }
+

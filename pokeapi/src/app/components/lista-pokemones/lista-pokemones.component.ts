@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit, HostListener  } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -34,15 +34,52 @@ export class ListaPokemonesComponent implements OnInit {
   searchControl = new FormControl('');
   currentPage = 0;
   isLoading: boolean = true;
+  cols: number = 4; // Número de columnas por defecto
+  fontSize: string = '1rem'; // Tamaño de fuente por defecto
+
 
   constructor(
     private pokeApiService: PokemonService,
     private router: Router
   ) {}
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.setGridColumns();
+    this.setFontSize();
+  }
+
   ngOnInit() {
     this.loadAllPokemons();
     this.setupSearch();
+    this.setGridColumns();
+    this.setFontSize();
+  }
+
+  setGridColumns() {
+    const width = window.innerWidth;
+    if (width < 600) {
+      this.cols = 1;
+    } else if (width < 900) {
+      this.cols = 2;
+    } else if (width < 1200) {
+      this.cols = 3;
+    } else {
+      this.cols = 4;
+    }
+  }
+
+  setFontSize() {
+    const width = window.innerWidth;
+    if (width < 600) {
+      this.fontSize = '0.8rem';
+    } else if (width < 900) {
+      this.fontSize = '1rem';
+    } else if (width < 1200) {
+      this.fontSize = '1.2rem';
+    } else {
+      this.fontSize = '1.5rem';
+    }
   }
 
   setupSearch() {
