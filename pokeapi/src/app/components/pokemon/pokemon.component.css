@@ -55,7 +55,15 @@
   mat-card-header {
     color: white;
     background-color: rgb(165, 61, 61);
-    padding: 1%;
+    padding: 2%;
+  }
+
+  mat-card-title {
+    font-size: 1.5rem;
+  }
+
+  mat-card-subtitle {
+    font-size: 1.8rem;
   }
   
   .infobox {
@@ -302,7 +310,7 @@ mat-expansion-panel p {
 
 .custom-button-back {
   position: relative;
-  width: 100px;
+  width: 130px;
   height: 50px;
   border-radius: 15px;
   overflow: hidden;
