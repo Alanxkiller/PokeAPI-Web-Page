@@ -132,6 +132,29 @@
 
       <mat-divider></mat-divider>
 
+      <div class="pokemon-details">
+        <table class="pokemon-table">
+          <thead>
+            <tr>
+              <th>Flavor Text</th>
+              <th>Cries</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>            
+                <p>{{ flavorText }}</p>
+              </td>
+              <td>            
+                <button mat-raised-button color="primary" (click)="playCryLatest()" class="custom-button-cries">Play Cry (Latest)</button>
+                <button mat-raised-button color="primary" (click)="playCryLegacy()" class="custom-button-cries">Play Cry (Legacy)</button>
+              </td>       
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <mat-divider></mat-divider>
 
       <div class="pokemon-details">
         <table class="pokemon-table">
@@ -151,48 +174,56 @@
       </div>
 
 
-        <table class="pokemon-table">
-          <thead>
-            <tr>
-              <th>Attack Name</th>
-              <th>Type</th>
-              <th>Cat.</th>
-              <th>Att.</th>
-              <th>Acc.</th>
-              <th>PP</th>
-              <th>Effect %</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let move of moves">
-              <tr>
-                <td>{{ move.name | titlecase }}</td>
-                <td>
-                  <div class="move-type-container">
-                    <div [ngStyle]="{'background-color': getTypeColor(move.type), border: '4px solid ', 'border-color': getBorderTypeColor(move.type)}" class="move-type-box">
-                      {{  move.type | uppercase }}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="move-category-container">
-                    <div [ngStyle]="{'background-color': getCategoryColor(move.category), border: '4px solid ', 'border-color': getCategoryTypeColor(move.category)}" class="move-category-box">
-                      {{  move.category | uppercase }}
-                    </div>
-                  </div>
-                </td>
-                <td>{{ move.power || '--' }}</td>
-                <td>{{ move.accuracy || '--' }}</td>
-                <td>{{ move.pp }}</td>
-                <td>{{ move.effectChance || '--' }}</td>
-              </tr>
-              <tr>
-                <td colspan="7" class="move-description">{{ move.effect }}</td>
-              </tr>
-              <br>
-            </ng-container>
-          </tbody>
-        </table>
+      <div class="pokemon-details">
+        <h3>Moves</h3>
+        <p>Every move this pokemon can learn is shown below:</p>
+        
+        <div class="table-container" appDragScroll>
+    <table class="pokemon-table moves-table">
+      <thead>
+        <tr>
+          <th>Attack Name</th>
+          <th>Type</th>
+          <th>Cat.</th>
+          <th>Att.</th>
+          <th>Acc.</th>
+          <th>PP</th>
+          <th>Effect %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let move of moves">
+          <tr>
+            <td>{{ move.name | titlecase }}</td>
+            <td>
+              <div class="move-type-container">
+                <div [ngStyle]="{'background-color': getTypeColor(move.type), border: '4px solid ', 'border-color': getBorderTypeColor(move.type)}" class="move-type-box">
+                  {{  move.type | uppercase }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="move-category-container">
+                <div [ngStyle]="{'background-color': getCategoryColor(move.category), border: '4px solid ', 'border-color': getCategoryTypeColor(move.category)}" class="move-category-box">
+                  {{  move.category | uppercase }}
+                </div>
+              </div>
+            </td>
+            <td>{{ move.power || '--' }}</td>
+            <td>{{ move.accuracy || '--' }}</td>
+            <td>{{ move.pp }}</td>
+            <td>{{ move.effectChance || '--' }}</td>
+          </tr>
+          <tr>
+            <td colspan="7" class="move-description">{{ move.effect }}</td>
+          </tr>
+          <br>
+        </ng-container>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
 
     </mat-card-content>
   </mat-card>

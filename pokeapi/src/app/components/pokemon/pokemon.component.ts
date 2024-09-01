@@ -38,6 +38,10 @@ export class PokemonComponent implements OnInit {
   showStats: boolean = false;
   abilities: Ability[] = [];
   moves: Move[] = [];
+  flavorText: string = '';
+  cryAudioLatest: HTMLAudioElement | null = null;
+  cryAudioLegacy: HTMLAudioElement | null = null;
+  
 
 
   constructor(
@@ -64,6 +68,16 @@ export class PokemonComponent implements OnInit {
         this.calculateStatPercentages();
         this.loadAbilityDetails();
         this.loadMoveDetails();
+        this.loadSpeciesInfo(this.pokemon.id);
+
+        const audioUrlLatest = data.cries.latest;
+        this.cryAudioLatest = new Audio(audioUrlLatest);
+        this.cryAudioLatest.volume = 0.5;
+  
+        const audioUrlLegacy = data.cries.legacy;
+        this.cryAudioLegacy = new Audio(audioUrlLegacy);
+        this.cryAudioLegacy.volume = 0.5;
+
         setTimeout(() => {
           this.showStats = true;
         }, 100);
@@ -72,6 +86,32 @@ export class PokemonComponent implements OnInit {
         console.error('Error fetching Pokemon details:', error);
       }
     );
+  }
+
+  loadSpeciesInfo(pokemonId: number) {
+    this.pokeApiService.getPokemonSpecies(pokemonId).subscribe(
+      (data: any) => {
+        const englishFlavorText = data.flavor_text_entries.find(
+          (entry: any) => entry.language.name === 'en'
+        );
+        this.flavorText = englishFlavorText ? englishFlavorText.flavor_text : 'No description available.';
+      },
+      error => {
+        console.error('Error fetching species info:', error);
+      }
+    );
+  }
+
+  playCryLatest() {
+    if (this.cryAudioLatest) {
+      this.cryAudioLatest.play();
+    }
+  }
+
+  playCryLegacy() {
+    if (this.cryAudioLegacy) {
+      this.cryAudioLegacy.play();
+    }
   }
 
   loadMoveDetails() {

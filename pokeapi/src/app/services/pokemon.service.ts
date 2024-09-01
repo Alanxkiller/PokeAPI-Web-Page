@@ -33,4 +33,8 @@ export class PokemonService {
     return this.http.get(url);
   }
 
+  getPokemonSpecies(pokemonId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/pokemon-species/${pokemonId}`);
+  }
+
 }

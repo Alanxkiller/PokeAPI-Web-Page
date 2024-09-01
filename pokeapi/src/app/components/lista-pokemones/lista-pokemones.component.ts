@@ -5,11 +5,22 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-lista-pokemones',
   templateUrl: './lista-pokemones.component.html',
-  styleUrl: './lista-pokemones.component.css'
+  styleUrl: './lista-pokemones.component.css',
+  animations: [
+    trigger('listAnimation', [
+      transition('* <=> *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateY(-15px)' }),
+          stagger('50ms', animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0px)' })))
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
 
 export class ListaPokemonesComponent implements OnInit {
@@ -22,6 +33,7 @@ export class ListaPokemonesComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 20, 50, 100];
   searchControl = new FormControl('');
   currentPage = 0;
+  isLoading: boolean = true;
 
   constructor(
     private pokeApiService: PokemonService,
@@ -40,6 +52,7 @@ export class ListaPokemonesComponent implements OnInit {
     ).subscribe(searchTerm => {
       this.currentPage = 0;
       this.updateFilteredList();
+      this.updateDisplayedPokemons();
     });
   }
 
@@ -56,8 +69,11 @@ export class ListaPokemonesComponent implements OnInit {
 
   updateDisplayedPokemons() {
     const startIndex = this.currentPage * this.pageSize;
-    this.displayedPokemonList = this.filteredPokemonList.slice(startIndex, startIndex + this.pageSize);
-    this.loadPokemonImages(this.displayedPokemonList);
+    this.displayedPokemonList = [];
+    setTimeout(() => {
+      this.displayedPokemonList = this.filteredPokemonList.slice(startIndex, startIndex + this.pageSize);
+      this.loadPokemonImages(this.displayedPokemonList);
+    }, 0);
   }
 
   getPagedPokemons(): any[] {
@@ -75,23 +91,28 @@ export class ListaPokemonesComponent implements OnInit {
         details.forEach((detail, index) => {
           pokemons[index].imageUrl = detail.sprites.front_default;
         });
+        this.isLoading = false; 
       },
       error => {
         console.error('Error fetching Pokemon details:', error);
+        this.isLoading = false;
       }
     );
   }
 
   loadAllPokemons() {
+    this.isLoading = true; // Indicamos que la carga ha comenzado
     this.pokeApiService.getPokemonList(100000, 0).subscribe(
       (data: any) => {
         this.pokemonList = data.results;
         this.totalPokemons = data.count;
         this.loadPokemonImages(this.pokemonList.slice(0, this.pageSize));
         this.updateFilteredList();
+        this.updateDisplayedPokemons();
       },
       error => {
         console.error('Error fetching Pokemon list:', error);
+        this.isLoading = false; // Aseguramos que isLoading se establezca en false incluso si hay un error
       }
     );
   }

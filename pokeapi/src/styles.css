@@ -2,3 +2,27 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.table-container {
+    overflow-x: auto;
+    cursor: grab;
+    user-select: none;
+  }
+  
+  .table-container.active {
+    cursor: grabbing;
+  }
+  
+  .table-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .table-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+  
+  .table-container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+  }

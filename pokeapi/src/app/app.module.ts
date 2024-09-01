@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { DragScrollDirective } from './directives/drag-scroll.directive';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
     ListaPokemonesComponent,
     PokemonComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    DragScrollDirective
   ],
   imports: [
     BrowserModule,

@@ -75,7 +75,6 @@
     margin: 10px;
   }
   
-
   .columns {
     display: flex;
     gap: 20px;
@@ -275,14 +274,15 @@ mat-expansion-panel p {
 /* Contenedor de botones */
 .button-container {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
 
 .custom-button {
   position: relative;
-  width: 200px; /* Ancho del botón */
-  height: 100px; /* Alto del botón */
+  width: 130px; 
+  height: 100px;
   border-radius: 15px;
   overflow: hidden;
   padding: 0;
@@ -292,8 +292,8 @@ mat-expansion-panel p {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: white; /* Color del texto */
-  background-size: cover;
+  color: white;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
@@ -302,22 +302,38 @@ mat-expansion-panel p {
 
 .custom-button-back {
   position: relative;
-  width: 100px; /* Ancho del botón */
-  height: 50px; /* Alto del botón */
+  width: 100px;
+  height: 50px;
   border-radius: 15px;
   overflow: hidden;
   padding: 0;
-  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: white; /* Color del texto */
+  color: white;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
+  margin-right: auto;
+}
+
+.custom-button-cries {
+  width: 100px;
+  height: 50px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(56, 112, 56);
+  margin-right: auto;
+  border-spacing: 10px;
+  transition: all 0.3s ease;
+  
 }
 
 /* Overlay de oscurecimiento */
@@ -341,8 +357,12 @@ mat-expansion-panel p {
 }
 
 /* Efecto hover */
-.custom-button:hover, .custom-button-back :hover {
+.custom-button:hover, .custom-button-back:hover, .custom-button-cries:hover {
   transform: scale(1.05);
+}
+
+.custom-button-cries:hover {
+  background-color: rgb(35, 70, 35);
 }
 
 /* Efecto para botones deshabilitados */
@@ -357,4 +377,172 @@ mat-expansion-panel p {
 
 .go-back-button:hover {
   background-color: #e53935; /* Color de fondo en hover */
+}
+
+.moves-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.move-item {
+  background-color: rgb(84, 84, 84);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.move-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.move-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.move-type-box, .move-category-box {
+  padding: 3px 8px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.move-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.move-description {
+  font-size: 0.9em;
+  color: #ddd;
+}
+
+@media (max-width: 600px) {
+  .move-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .move-type-container, .move-category-container {
+    display: inline-block;
+  }
+}
+
+/* Ajustes adicionales para mejorar la responsividad general */
+.pokemon-details {
+  overflow-x: auto;
+}
+
+.pokemon-table, .pokemon-table2 {
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .image-gallery img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .type-box {
+    font-size: 1.2rem;
+  }
+  
+  .button-container {
+    flex-wrap: wrap;
+  }
+  
+  .custom-button, .custom-button-back, .custom-button-cries {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* Estilos para la tabla de movimientos */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.moves-table {
+  min-width: 750px; /* Asegura que la tabla mantenga su ancho mínimo */
+}
+
+.moves-table th, .moves-table td {
+  padding: 10px;
+}
+
+.move-type-box, .move-category-box {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.move-description {
+  white-space: normal; /* Permite que la descripción se ajuste */
+}
+
+/* Estilos responsivos adicionales */
+@media (max-width: 768px) {
+  .pokemon-details {
+    padding: 10px;
+  }
+
+  .moves-table {
+    font-size: 0.9rem; /* Reduce ligeramente el tamaño de la fuente en móviles */
+  }
+
+  .move-type-box, .move-category-box {
+    padding: 3px 6px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Ajustes adicionales para mejorar la responsividad general */
+@media (max-width: 768px) {
+  .image-gallery img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .type-box {
+    font-size: 1.2rem;
+  }
+  
+  .button-container {
+    flex-wrap: wrap;
+  }
+  
+  .custom-button, .custom-button-back, .custom-button-cries {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* Indicador de scroll horizontal */
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table-container:active {
+  cursor: grabbing; /* Cambia el cursor mientras se arrastra */
 }
