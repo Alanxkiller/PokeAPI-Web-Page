@@ -6,35 +6,31 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="goBack()">Go back to list</button>
-        <button
-          mat-button
-          [disabled]="!prevPokemon"
-          (click)="goToPokemon(prevPokemon)"
-          class="nav-button"
-        >
-          Previous
-          <img
-            *ngIf="prevPokemon"
-            [src]="prevPokemon.imageUrl"
-            [alt]="prevPokemon.name"
-          />
-        </button>
-        <button
-          mat-button
-          [disabled]="!nextPokemon"
-          (click)="goToPokemon(nextPokemon)"
-          class="nav-button"
-        >
-          Next
-          <img
-            *ngIf="nextPokemon"
-            [src]="nextPokemon.imageUrl"
-            [alt]="nextPokemon.name"
-          />
-        </button>
-      </mat-card-actions>
+        <mat-card-actions class="button-container">
+          <button mat-button (click)="goBack()" class="custom-button-back go-back-button">
+            Go back to list
+          </button>
+          <button
+          *ngIf="prevPokemon"
+            mat-button
+            [disabled]="!prevPokemon"
+            (click)="goToPokemon(prevPokemon)"
+            class="custom-button nav-button"
+            [ngStyle]="{'background-image': 'url(' + prevPokemon.imageUrl + ')'}"
+          >
+            <span class="overlay-text">Previous</span>
+          </button>
+          <button
+          *ngIf="nextPokemon"
+            mat-button
+            [disabled]="!nextPokemon"
+            (click)="goToPokemon(nextPokemon)"
+            class="custom-button nav-button"
+            [ngStyle]="{'background-image': 'url(' + nextPokemon.imageUrl + ')'}"
+          >
+            <span class="overlay-text">Next</span>
+          </button>
+        </mat-card-actions>
 
       <div class="infobox">
         <div class="image-gallery">
@@ -83,7 +79,7 @@
             <tr>
               <td>
                 <div class="type-container">
-                  <div *ngFor="let type of pokemon.types" class="type-box" [ngStyle]="{'background-color': getTypeColor(type.type.name)}">
+                  <div *ngFor="let type of pokemon.types" class="type-box" [ngStyle]="{'background-color': getTypeColor(type.type.name),  border: '4px solid ', 'border-color': getBorderTypeColor(type.type.name)}">
                     {{ type.type.name | titlecase }}
                   </div>
                 </div>
@@ -105,8 +101,17 @@
 
       <mat-divider></mat-divider>
 
-      <div class="infobox">
-        <h3>Abilities</h3>
+      <div class="pokemon-details">
+        <table class="pokemon-table">
+          <thead>
+            <tr>
+              <th>Abilities</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                
         <mat-accordion>
           <mat-expansion-panel *ngFor="let ability of abilities">
             <mat-expansion-panel-header>
@@ -118,21 +123,77 @@
             <p>{{ ability.effect }}</p>
           </mat-expansion-panel>
         </mat-accordion>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <mat-divider></mat-divider>
 
 
-      <mat-divider></mat-divider>
-
-      <div class="infobox">
-        <h3>Moves</h3>
-        <mat-chip-set>
-          <mat-chip *ngFor="let move of pokemon.moves.slice(0, 100)">{{
-            move.move.name | titlecase
-          }}</mat-chip>
-        </mat-chip-set>
+      <div class="pokemon-details">
+        <table class="pokemon-table">
+          <thead>
+            <tr>
+              <th>Moves</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>            
+                Every move this pokemon can learn is shown below:
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+
+        <table class="pokemon-table">
+          <thead>
+            <tr>
+              <th>Attack Name</th>
+              <th>Type</th>
+              <th>Cat.</th>
+              <th>Att.</th>
+              <th>Acc.</th>
+              <th>PP</th>
+              <th>Effect %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let move of moves">
+              <tr>
+                <td>{{ move.name | titlecase }}</td>
+                <td>
+                  <div class="move-type-container">
+                    <div [ngStyle]="{'background-color': getTypeColor(move.type), border: '4px solid ', 'border-color': getBorderTypeColor(move.type)}" class="move-type-box">
+                      {{  move.type | uppercase }}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="move-category-container">
+                    <div [ngStyle]="{'background-color': getCategoryColor(move.category), border: '4px solid ', 'border-color': getCategoryTypeColor(move.category)}" class="move-category-box">
+                      {{  move.category | uppercase }}
+                    </div>
+                  </div>
+                </td>
+                <td>{{ move.power || '--' }}</td>
+                <td>{{ move.accuracy || '--' }}</td>
+                <td>{{ move.pp }}</td>
+                <td>{{ move.effectChance || '--' }}</td>
+              </tr>
+              <tr>
+                <td colspan="7" class="move-description">{{ move.effect }}</td>
+              </tr>
+              <br>
+            </ng-container>
+          </tbody>
+        </table>
+
     </mat-card-content>
   </mat-card>
 </div>

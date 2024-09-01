@@ -55,6 +55,7 @@
   mat-card-header {
     color: white;
     background-color: rgb(165, 61, 61);
+    padding: 1%;
   }
   
   .infobox {
@@ -74,11 +75,6 @@
     margin: 10px;
   }
   
-  .nav-button img {
-    width: 50px;
-    height: 50px;
-    margin: 0 10px;
-  }
 
   .columns {
     display: flex;
@@ -206,13 +202,14 @@
   }
 }
 
-.type-container {
+.type-container, .move-type-container, .move-category-container {
   display: flex;
   flex-direction: column;
   gap: 35px;
   align-items: center;
   justify-content: center;
 }
+
 
 .type-box {
   display: inline-block;
@@ -221,6 +218,25 @@
   color: white;
   font-weight: bold;
   font-size: 1.8rem;
+}
+
+.move-type-box {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px; 
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.move-category-box {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px; 
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1rem;
 }
 
 mat-accordion {
@@ -254,4 +270,91 @@ mat-expansion-panel p {
   padding: 10px;
   background-color: rgb(105, 105, 105);
   border-radius: 5px;
+}
+
+/* Contenedor de botones */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.custom-button {
+  position: relative;
+  width: 200px; /* Ancho del botón */
+  height: 100px; /* Alto del botón */
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white; /* Color del texto */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
+
+
+.custom-button-back {
+  position: relative;
+  width: 100px; /* Ancho del botón */
+  height: 50px; /* Alto del botón */
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white; /* Color del texto */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
+
+/* Overlay de oscurecimiento */
+.custom-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Oscurecimiento */
+  z-index: 1;
+}
+
+/* Texto encima del botón */
+.overlay-text {
+  position: relative;
+  z-index: 2;
+  font-size: 1.2em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra para mejorar la legibilidad */
+}
+
+/* Efecto hover */
+.custom-button:hover, .custom-button-back :hover {
+  transform: scale(1.05);
+}
+
+/* Efecto para botones deshabilitados */
+.custom-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.go-back-button {
+  background-color: #f44336; /* Color de fondo específico */
+}
+
+.go-back-button:hover {
+  background-color: #e53935; /* Color de fondo en hover */
 }

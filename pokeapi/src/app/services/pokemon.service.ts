@@ -28,5 +28,9 @@ export class PokemonService {
   getAbilityDetails(url: string): Observable<any> {
     return this.http.get(url);
   }
-  
+
+  getMoveDetails(url: string): Observable<any> {
+    return this.http.get(url);
+  }
+
 }
