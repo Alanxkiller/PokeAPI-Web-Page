@@ -20,10 +20,10 @@ La aplicación web consiste en una especie de Pokédex utilizando PokéAPI v2.
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio.git
+   git clone https://github.com/Alanxkiller/PokeAPI-Web-Page.git
 
 2. Navega al directorio del proyecto:
-   cd tu_repositorio
+   cd PokeAPI-Web-Page
 
 3. Instala las dependencias:
    npm install
