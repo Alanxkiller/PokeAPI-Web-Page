@@ -28,9 +28,8 @@ interface Move {
 @Component({
   selector: 'app-pokemon',
   templateUrl: './pokemon.component.html',
-  styleUrl: './pokemon.component.css'
+  styleUrl: './pokemon.component.css',
 })
-
 export class PokemonComponent implements OnInit {
   pokemon: any;
   spriteUrls: string[] = [];
@@ -42,15 +41,16 @@ export class PokemonComponent implements OnInit {
   flavorText: string = '';
   cryAudioLatest: HTMLAudioElement | null = null;
   cryAudioLegacy: HTMLAudioElement | null = null;
-  
+  audioUrlLegacy: string | undefined;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private pokeApiService: PokemonService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const pokemonName = params.get('name');
       if (pokemonName) {
         this.loadPokemonDetails(pokemonName);
@@ -59,9 +59,18 @@ export class PokemonComponent implements OnInit {
   }
 
   loadPokemonDetails(pokemonName: string) {
+    // Detener cualquier sonido en reproducción antes de cargar el nuevo Pokémon
+    if (this.cryAudioLatest) {
+      this.cryAudioLatest.pause();
+    }
+    if (this.cryAudioLegacy) {
+      this.cryAudioLegacy.pause();
+    }
+
     this.pokeApiService.getPokemonDetails(pokemonName).subscribe(
       (data: any) => {
         this.pokemon = data;
+        this.spriteUrls = [];
         this.extractSpriteUrls();
         this.loadAdjacentPokemon(this.pokemon.id);
         this.calculateStatPercentages();
@@ -71,17 +80,18 @@ export class PokemonComponent implements OnInit {
 
         const audioUrlLatest = data.cries.latest;
         this.cryAudioLatest = new Audio(audioUrlLatest);
-        this.cryAudioLatest.volume = 0.5;
-  
-        const audioUrlLegacy = data.cries.legacy;
-        this.cryAudioLegacy = new Audio(audioUrlLegacy);
-        this.cryAudioLegacy.volume = 0.5;
+        this.cryAudioLatest.volume = 0.3;
+        this.playCryLatest();
+
+        this.audioUrlLegacy = data.cries.legacy;
+        this.cryAudioLegacy = new Audio(this.audioUrlLegacy);
+        this.cryAudioLegacy.volume = 0.3;
 
         setTimeout(() => {
           this.showStats = true;
         }, 100);
       },
-      error => {
+      (error) => {
         console.error('Error fetching Pokemon details:', error);
       }
     );
@@ -93,9 +103,11 @@ export class PokemonComponent implements OnInit {
         const englishFlavorText = data.flavor_text_entries.find(
           (entry: any) => entry.language.name === 'en'
         );
-        this.flavorText = englishFlavorText ? englishFlavorText.flavor_text : 'No description available.';
+        this.flavorText = englishFlavorText
+          ? englishFlavorText.flavor_text
+          : 'No description available.';
       },
-      error => {
+      (error) => {
         console.error('Error fetching species info:', error);
       }
     );
@@ -103,12 +115,16 @@ export class PokemonComponent implements OnInit {
 
   playCryLatest() {
     if (this.cryAudioLatest) {
+      this.cryAudioLatest.pause();
+      this.cryAudioLatest.currentTime = 0;
       this.cryAudioLatest.play();
     }
   }
 
   playCryLegacy() {
     if (this.cryAudioLegacy) {
+      this.cryAudioLegacy.pause();
+      this.cryAudioLegacy.currentTime = 0;
       this.cryAudioLegacy.play();
     }
   }
@@ -120,7 +136,7 @@ export class PokemonComponent implements OnInit {
 
     forkJoin(moveObservables as Observable<any>[]).subscribe(
       (moveDetails: any[]) => {
-        this.moves = moveDetails.map(detail => ({
+        this.moves = moveDetails.map((detail) => ({
           name: detail.name,
           type: detail.type.name,
           category: detail.damage_class.name,
@@ -128,17 +144,19 @@ export class PokemonComponent implements OnInit {
           accuracy: detail.accuracy,
           pp: detail.pp,
           effect: this.getEnglishEffectEntry(detail.effect_entries),
-          effectChance: detail.effect_chance
+          effectChance: detail.effect_chance,
         }));
       },
-      error => {
+      (error) => {
         console.error('Error fetching move details:', error);
       }
     );
   }
 
   getEnglishEffectEntry(effectEntries: any[]): string {
-    const englishEntry = effectEntries.find(entry => entry.language.name === 'en');
+    const englishEntry = effectEntries.find(
+      (entry) => entry.language.name === 'en'
+    );
     return englishEntry ? englishEntry.effect : 'No description available.';
   }
 
@@ -152,18 +170,22 @@ export class PokemonComponent implements OnInit {
         this.abilities = abilityDetails.map((detail, index) => ({
           name: this.pokemon.abilities[index].ability.name,
           effect: this.getEnglishFlavorText(detail.flavor_text_entries),
-          isHidden: this.pokemon.abilities[index].is_hidden
+          isHidden: this.pokemon.abilities[index].is_hidden,
         }));
       },
-      error => {
+      (error) => {
         console.error('Error fetching ability details:', error);
       }
     );
   }
 
   getEnglishFlavorText(flavorTextEntries: any[]): string {
-    const englishEntry = flavorTextEntries.find(entry => entry.language.name === 'en');
-    return englishEntry ? englishEntry.flavor_text : 'No description available.';
+    const englishEntry = flavorTextEntries.find(
+      (entry) => entry.language.name === 'en'
+    );
+    return englishEntry
+      ? englishEntry.flavor_text
+      : 'No description available.';
   }
 
   calculateStatPercentages() {
@@ -183,23 +205,25 @@ export class PokemonComponent implements OnInit {
 
   loadAdjacentPokemon(currentId: number) {
     if (currentId > 1) {
-      this.pokeApiService.getPokemonDetails(String(currentId - 1)).subscribe(
-        (data: any) => {
+      this.pokeApiService
+        .getPokemonDetails(String(currentId - 1))
+        .subscribe((data: any) => {
           this.prevPokemon = {
             name: data.name,
-            imageUrl: data.sprites.front_default
+            imageUrl: data.sprites.front_default,
           };
-        }
-      );
+        });
+    } else {
+      this.prevPokemon = null;
     }
     this.pokeApiService.getPokemonDetails(String(currentId + 1)).subscribe(
       (data: any) => {
         this.nextPokemon = {
           name: data.name,
-          imageUrl: data.sprites.front_default
+          imageUrl: data.sprites.front_default,
         };
       },
-      () => this.nextPokemon = null
+      () => (this.nextPokemon = null)
     );
   }
 
@@ -218,19 +242,19 @@ export class PokemonComponent implements OnInit {
     const maxStat = 600;
     const midStat = maxStat / 2;
     let color: string;
-  
+
     if (baseStat <= midStat) {
       // De rojo a amarillo
       const ratio = baseStat / midStat;
       const red = Math.round(255 * (1 - ratio));
       const yellow = Math.round(255 * ratio);
-      color = `rgb(${red+20}, ${yellow+50}, 0)`; // Rojo a amarillo
+      color = `rgb(${red + 20}, ${yellow + 50}, 0)`; // Rojo a amarillo
     } else {
       // De amarillo a verde
       const ratio = (baseStat - midStat) / (maxStat - midStat);
       const green = Math.round(255 * ratio);
       const yellow = Math.round(255 * (1 - ratio));
-      color = `rgb(${yellow+20}, ${green+50}, 0)`; // Amarillo a verde
+      color = `rgb(${yellow + 20}, ${green + 50}, 0)`; // Amarillo a verde
     }
     return color;
   }
@@ -253,9 +277,9 @@ export class PokemonComponent implements OnInit {
       dragon: '#7038F8',
       dark: '#705848',
       steel: '#B8B8D0',
-      fairy: '#F0B6BC'
+      fairy: '#F0B6BC',
     };
-  
+
     return typeColors[typeName.toLowerCase()] || '#A7A7A7'; // Devuelve gris por defecto si no se encuentra el tipo
   }
 
@@ -277,9 +301,9 @@ export class PokemonComponent implements OnInit {
       dragon: '#41208D',
       dark: '#382C24',
       steel: '#7C7C8D',
-      fairy: '#8D6B6E'
+      fairy: '#8D6B6E',
     };
-  
+
     return typeColors[typeName.toLowerCase()] || '#5A5A5A'; // Devuelve gris por defecto si no se encuentra el tipo
   }
 
@@ -289,7 +313,7 @@ export class PokemonComponent implements OnInit {
       special: '#2858F6',
       status: '#A7A7A7',
     };
-  
+
     return typeColors[categoryName.toLowerCase()] || '#A7A7A7'; // Devuelve gris por defecto si no se encuentra el tipo
   }
 
@@ -299,8 +323,7 @@ export class PokemonComponent implements OnInit {
       special: '#17328D',
       status: '#5A5A5A',
     };
-  
+
     return typeColors[categoryName.toLowerCase()] || '#5A5A5A'; // Devuelve gris por defecto si no se encuentra el tipo
   }
-
 }

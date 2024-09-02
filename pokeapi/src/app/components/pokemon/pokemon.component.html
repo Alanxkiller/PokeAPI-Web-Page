@@ -147,7 +147,7 @@
               </td>
               <td>            
                 <button mat-raised-button color="primary" (click)="playCryLatest()" class="custom-button-cries">Play Cry (Latest)</button>
-                <button mat-raised-button color="primary" (click)="playCryLegacy()" class="custom-button-cries">Play Cry (Legacy)</button>
+                <button *ngIf="audioUrlLegacy" mat-raised-button color="primary" (click)="playCryLegacy()" class="custom-button-cries">Play Cry (Legacy)</button>
               </td>       
             </tr>
           </tbody>
