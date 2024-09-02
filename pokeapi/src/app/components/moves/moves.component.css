@@ -69,3 +69,39 @@
       font-size: 0.8rem;
     }
   }
+
+  .selector {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-button-back {
+    position: relative;
+    width: 130px;
+    height: 50px;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease;
+    margin-right: auto;
+    
+  }
+
+  .go-back-button {
+    background-color: #f44336; /* Color de fondo específico */
+  }
+  
+  .go-back-button:hover {
+    background-color: #e53935; /* Color de fondo en hover */
+  }

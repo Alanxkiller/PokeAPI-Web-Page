@@ -37,4 +37,12 @@ export class PokemonService {
     return this.http.get(`${this.baseUrl}/pokemon-species/${pokemonId}`);
   }
 
+  getAllMoves(limit: number = 2000, offset: number = 0): Observable<any> {
+    return this.http.get(`${this.baseUrl}/move?limit=${limit}&offset=${offset}`);
+  }
+
+  getMoveTypes(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/type`);
+  }
+
 }

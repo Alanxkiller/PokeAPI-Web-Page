@@ -64,6 +64,12 @@ export class ListaPokemonesComponent implements OnInit {
     this.showSidebar = window.innerWidth > this.minWidth * 0.99;
   }
   
+  onImageError(event: any) {
+    // Oculta la imagen en caso de error y en vez de eso sale una bonita pokebola
+    if (event.target.src !== 'assets/pokeholder.png') {
+      event.target.src = 'assets/pokeholder.png'; // URL de marcador de posición
+    }
+  }
 
   setGridColumns() {
     const width = window.innerWidth;

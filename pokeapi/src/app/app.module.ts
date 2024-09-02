@@ -7,6 +7,7 @@ import { ListaPokemonesComponent } from './components/lista-pokemones/lista-poke
 import { PokemonComponent } from './components/pokemon/pokemon.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -25,7 +26,7 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MovesComponent } from './components/moves/moves.component';
-
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MovesComponent } from './components/moves/moves.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     MatGridListModule,
     MatCardModule,
@@ -56,7 +58,8 @@ import { MovesComponent } from './components/moves/moves.component';
     MatAccordion,
     MatExpansionPanel,
     MatExpansionPanelHeader,
-    MatExpansionPanelTitle
+    MatExpansionPanelTitle,
+    MatSelectModule
   ],
   providers: [
     provideAnimationsAsync()

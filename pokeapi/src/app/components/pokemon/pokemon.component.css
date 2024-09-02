@@ -554,3 +554,10 @@ mat-expansion-panel p {
 .table-container:active {
   cursor: grabbing; /* Cambia el cursor mientras se arrastra */
 }
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

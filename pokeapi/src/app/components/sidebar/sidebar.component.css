@@ -1,6 +1,6 @@
 .sidebar {
-    width: 216px;
-    height: 126%;
+    width: 213px;
+    height: 100%;
     position: absolute;
     left: 0;
     top: 0;
@@ -9,6 +9,8 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     margin-top: 130px;
     font-size: 2rem;
+    border-style: solid;
+    border-color: black;
   }
   
   .sidebar h2 {
@@ -27,4 +29,9 @@
   .sidebar button {
     width: 100%;
     text-align: left;
+  }
+
+  a {
+    color: rgb(255, 99, 99);
+    text-decoration: none;
   }

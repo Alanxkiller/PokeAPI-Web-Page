@@ -16,7 +16,7 @@
             [disabled]="!prevPokemon"
             (click)="goToPokemon(prevPokemon)"
             class="custom-button nav-button"
-            [ngStyle]="{'background-image': 'url(' + prevPokemon.imageUrl + ')'}"
+            [ngStyle]="{'background-image': 'url(' + (prevPokemon.imageUrl || 'assets/pokeholder.png') + ')'}"
           >
             <span class="overlay-text">Previous</span>
           </button>
@@ -26,7 +26,7 @@
             [disabled]="!nextPokemon"
             (click)="goToPokemon(nextPokemon)"
             class="custom-button nav-button"
-            [ngStyle]="{'background-image': 'url(' + nextPokemon.imageUrl + ')'}"
+            [ngStyle]="{'background-image': 'url(' + (nextPokemon.imageUrl || 'assets/pokeholder.png') + ')'}"
           >
             <span class="overlay-text">Next</span>
           </button>
@@ -34,10 +34,15 @@
 
       <div class="infobox">
         <div class="image-gallery">
+          <div *ngIf="spriteUrls.length === 0" class="placeholder">
+            <img src="assets/pokeholder.png"/>
+            <p>No images available yet for this pokemon.</p>
+          </div>
           <img
             *ngFor="let url of spriteUrls"
             [src]="url"
             [alt]="pokemon.name"
+            (error)="onImageError($event)"
           />
         </div>
       </div>

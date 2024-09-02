@@ -33,16 +33,10 @@ interface Move {
 export class MovesComponent implements OnInit {
 
   pokemon: any;
-  spriteUrls: string[] = [];
-  prevPokemon: AdjacentPokemon | null = null;
-  nextPokemon: AdjacentPokemon | null = null;
-  showStats: boolean = false;
-  abilities: Ability[] = [];
   moves: Move[] = [];
-  flavorText: string = '';
-  cryAudioLatest: HTMLAudioElement | null = null;
-  cryAudioLegacy: HTMLAudioElement | null = null;
-  audioUrlLegacy: string | undefined;
+  moveTypes: string[] = [];
+  filteredMoves: Move[] = [];
+  selectedType: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -51,30 +45,57 @@ export class MovesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const pokemonName = params.get('name');
-      if (pokemonName) {
-        this.loadPokemonDetails(pokemonName);
-        this.loadMoveDetails();
-      }
-    });
+    this.loadAllMoves();
+    this.loadMoveTypes();
   }
 
-  loadPokemonDetails(pokemonName: string) {
+  loadAllMoves() {
+    this.pokeApiService.getAllMoves().subscribe(
+      (response: any) => {
+        const moveObservables = response.results.map((move: any) =>
+          this.pokeApiService.getMoveDetails(move.url)
+        );
 
-    this.pokeApiService.getPokemonDetails(pokemonName).subscribe(
-      (data: any) => {
-        this.pokemon = data;
-        this.spriteUrls = [];
-
-        setTimeout(() => {
-          this.showStats = true;
-        }, 100);
+        forkJoin(moveObservables as Observable<any>[]).subscribe(
+          (moveDetails: any[]) => {
+            this.moves = moveDetails.map((detail) => ({
+              name: detail.name,
+              type: detail.type.name,
+              category: detail.damage_class.name,
+              power: detail.power,
+              accuracy: detail.accuracy,
+              pp: detail.pp,
+              effect: this.getEnglishEffectEntry(detail.effect_entries),
+              effectChance: detail.effect_chance,
+            }));
+            this.filterMovesByType(); // Aplica el filtro después de cargar los movimientos
+          },
+          (error) => {
+            console.error('Error fetching move details:', error);
+          }
+        );
       },
       (error) => {
-        console.error('Error fetching Pokemon details:', error);
+        console.error('Error fetching moves:', error);
       }
     );
+  }
+
+  goBack() {
+    this.router.navigate(['/']);
+  }
+
+  filterMovesByType() {
+    if (this.selectedType) {
+      this.filteredMoves = this.moves.filter(move => move.type === this.selectedType);
+    } else {
+      this.filteredMoves = this.moves;
+    }
+  }
+
+  onTypeChange(type: string) {
+    this.selectedType = type;
+    this.filterMovesByType(); // Filtra cuando se cambia el tipo
   }
 
   loadMoveDetails() {
@@ -97,6 +118,17 @@ export class MovesComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching move details:', error);
+      }
+    );
+  }
+
+  loadMoveTypes() {
+    this.pokeApiService.getMoveTypes().subscribe(
+      (data: any) => {
+        this.moveTypes = data.results.map((move: any) => move.name);
+      },
+      (error) => {
+        console.error('Error fetching move types:', error);
       }
     );
   }

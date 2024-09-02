@@ -1,5 +1,23 @@
 <div class="container">
+
+    <div class="selector">
+        <button mat-button (click)="goBack()" class="custom-button-back go-back-button">
+            Go back to list
+        </button>
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Filter by Type</mat-label>
+          <mat-select (selectionChange)="onTypeChange($event.value)">
+            <mat-option value="">All Types</mat-option>
+            <mat-option *ngFor="let type of moveTypes" [value]="type">
+                {{ type | titlecase }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
     <mat-card-content>
+          
         <div class="table-container" appDragScroll>
             <table class="pokemon-table moves-table">
               <thead>
@@ -14,7 +32,7 @@
                 </tr>
               </thead>
               <tbody>
-                <ng-container *ngFor="let move of moves">
+                <ng-container *ngFor="let move of filteredMoves">
                   <tr>
                     <td>{{ move.name | titlecase }}</td>
                     <td>
