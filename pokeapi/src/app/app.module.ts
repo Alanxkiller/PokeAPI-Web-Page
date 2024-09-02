@@ -24,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MovesComponent } from './components/moves/moves.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     HeaderComponent,
     FooterComponent,
     DragScrollDirective,
-    SidebarComponent
+    SidebarComponent,
+    MovesComponent
   ],
   imports: [
     BrowserModule,
