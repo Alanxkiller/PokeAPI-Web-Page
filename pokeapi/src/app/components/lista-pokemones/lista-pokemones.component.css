@@ -53,12 +53,12 @@
   }
 
   mat-grid-tile {
-    padding: 10px !important; /* Sobrescribe el padding por defecto de Angular Material */
+    padding: 10px !important; /* Con esto ya se puede sobreescribir el valor por defecto de Angular Material */
   }
 
  
   .content {
-    margin-left: 200px; /* Ancho del sidebar */
+    margin-left: 200px;
     width: calc(100% - 200px);
   }
 

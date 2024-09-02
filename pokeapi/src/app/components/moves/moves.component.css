@@ -61,7 +61,7 @@
     }
   
     .moves-table {
-      font-size: 0.9rem; /* Reduce ligeramente el tamaño de la fuente en móviles */
+      font-size: 0.9rem; /* Reduce ligeramente el tamaño de la fuente en celulares */
     }
   
     .move-type-box, .move-category-box {
