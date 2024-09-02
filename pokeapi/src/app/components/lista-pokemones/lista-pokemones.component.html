@@ -1,9 +1,11 @@
+<app-sidebar *ngIf="showSidebar" class="sidebar"></app-sidebar>
+
 <div class="container">
   <mat-form-field>
     <input
       matInput
       [formControl]="searchControl"
-      placeholder="Buscar Pokémon"
+      placeholder="Search for Pokémon"
     />
   </mat-form-field>
 

@@ -1,8 +1,15 @@
 .container {
+    margin: 0 auto;
     padding: 20px;
+    padding-right: 40px;
     color: white;
     overflow: hidden;
+    width: 70%;
     background-color: rgb(162, 162, 162);
+  }
+
+  .sidebar {
+    
   }
   
   mat-card {
@@ -52,4 +59,12 @@
   mat-grid-tile {
     padding: 10px !important; /* Sobrescribe el padding por defecto de Angular Material */
   }
+
+ 
+  .content {
+    margin-left: 200px; /* Ancho del sidebar */
+    width: calc(100% - 200px);
+  }
+
+  
 

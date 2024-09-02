@@ -30,6 +30,7 @@ interface Move {
   templateUrl: './pokemon.component.html',
   styleUrl: './pokemon.component.css'
 })
+
 export class PokemonComponent implements OnInit {
   pokemon: any;
   spriteUrls: string[] = [];
@@ -42,8 +43,6 @@ export class PokemonComponent implements OnInit {
   cryAudioLatest: HTMLAudioElement | null = null;
   cryAudioLegacy: HTMLAudioElement | null = null;
   
-
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,

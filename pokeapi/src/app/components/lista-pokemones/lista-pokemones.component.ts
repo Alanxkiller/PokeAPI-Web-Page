@@ -36,17 +36,20 @@ export class ListaPokemonesComponent implements OnInit {
   isLoading: boolean = true;
   cols: number = 4; // Número de columnas por defecto
   fontSize: string = '1rem'; // Tamaño de fuente por defecto
-
+  showSidebar: boolean = true;
+  private minWidth: number = 0;
 
   constructor(
     private pokeApiService: PokemonService,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {    this.minWidth = window.screen.width
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.setGridColumns();
     this.setFontSize();
+    this.checkWindowSize();
   }
 
   ngOnInit() {
@@ -54,7 +57,13 @@ export class ListaPokemonesComponent implements OnInit {
     this.setupSearch();
     this.setGridColumns();
     this.setFontSize();
+    this.checkWindowSize();
   }
+
+  private checkWindowSize() {
+    this.showSidebar = window.innerWidth > this.minWidth * 0.99;
+  }
+  
 
   setGridColumns() {
     const width = window.innerWidth;
@@ -92,8 +101,6 @@ export class ListaPokemonesComponent implements OnInit {
       this.updateDisplayedPokemons();
     });
   }
-
-  
 
   updateFilteredList() {
     const searchTerm = this.searchControl.value?.toLowerCase() || '';
@@ -138,7 +145,7 @@ export class ListaPokemonesComponent implements OnInit {
   }
 
   loadAllPokemons() {
-    this.isLoading = true; // Indicamos que la carga ha comenzado
+    this.isLoading = true; // Comienzo de la carga
     this.pokeApiService.getPokemonList(100000, 0).subscribe(
       (data: any) => {
         this.pokemonList = data.results;
@@ -149,7 +156,7 @@ export class ListaPokemonesComponent implements OnInit {
       },
       error => {
         console.error('Error fetching Pokemon list:', error);
-        this.isLoading = false; // Aseguramos que isLoading se establezca en false incluso si hay un error
+        this.isLoading = false; // isLoading se establece en false incluso si hay un error
       }
     );
   }

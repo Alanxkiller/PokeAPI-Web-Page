@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { DragScrollDirective } from './directives/drag-scroll.directive';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DragScrollDirective } from './directives/drag-scroll.directive';
     PokemonComponent,
     HeaderComponent,
     FooterComponent,
-    DragScrollDirective
+    DragScrollDirective,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
